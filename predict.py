@@ -1,0 +1,42 @@
+import pandas as pd
+import numpy as np
+import random
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.layers import LSTM, Dense, TimeDistributed, RepeatVector
+from sklearn.preprocessing import RobustScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import Adam
+import tensorflow as tf
+
+from preprocess import preprocess, create_windows_3d
+
+
+def predict(df, model, scaler, config, features):
+    df = preprocess(df)
+
+    X = scaler.transform(df[features])
+    X_3d = create_windows_3d(X, config["window_size"])
+
+    X_pred = model.predict(X_3d, verbose=0)
+    error = np.mean((X_3d - X_pred)**2, axis=1)
+
+    mse = (
+        error[:, features.index('cpu')] * 2 +
+        error[:, features.index('latency_p95')] * 3 +
+        error[:, features.index('errors')] * 2
+    )
+
+    y_pred = (mse > config["threshold"]).astype(int)
+
+    # сглаживание
+    kernel = np.ones(5)
+    y_pred = np.convolve(y_pred, kernel, mode='same')
+    y_pred = (y_pred >= 3).astype(int)
+
+    return y_pred, mse, error
