@@ -6,10 +6,8 @@ import pandas as pd
 PROM_URL = "http://localhost:9090"
 
 def query(promql):
-    #print("Start request")
     r = requests.get(f"{PROM_URL}/api/v1/query", params={"query": promql})
     data = r.json()
-    #print("End request")
 
     if not data["data"]["result"]:
         return 0.0

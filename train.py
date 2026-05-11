@@ -55,7 +55,7 @@ def train_model(df):
         json.dump({
             "window_size": WINDOW_SIZE,
             "threshold": float(threshold),
-            "min_len": 5
+            "min_len": 3
         }, f)
 
     print("Model retrained and saved")

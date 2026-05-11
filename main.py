@@ -9,7 +9,7 @@ import random
 import tensorflow as tf
 # python main.py --input data/test.csv
 from tensorflow.keras.models import load_model
-from predict import predict
+from detector import detect_anomalies
 from stream import run_streaming
 
 SEED = 43
@@ -30,7 +30,7 @@ def run_batch(model, scaler, config, features):
     df = pd.read_csv(args.input)
 
     # ===== предсказание =====
-    y_pred, mse = predict(df, model, scaler, config, features)
+    y_pred, mse = detect_anomalies(df, model, scaler, config, features)
 
     events = []
     start = None
