@@ -76,10 +76,13 @@ def run_batch(model, scaler, config, features):
 
     print("Saved to", args.output)
 
-# ===== загрузка данных =====
+# ===== загрузка модели =====
+with open("model/current_model.txt") as f:
+    version = f.read().strip()
 
-model = load_model("model/ae_model.h5", compile=False)
-scaler = joblib.load("model/scaler.pkl")
+model = load_model(f"model/ae_model_{version}.h5", compile=False)
+scaler = joblib.load(f"model/scaler_{version}.pkl")
+
 
 # ===== признаки =====
 features = [
@@ -89,7 +92,7 @@ features = [
     'hour', 'hour_sin', 'hour_cos'
 ]
 
-with open("model/config.json") as f:
+with open(f"model/config_{version}.json") as f:
     config = json.load(f)
 if args.stream:
     print("Start stream")

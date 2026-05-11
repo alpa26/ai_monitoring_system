@@ -15,6 +15,8 @@ def train_model(df):
 
     df = preprocess(df)
 
+    version = datetime.now().strftime("%Y%m%d_%H%M")
+
     features = [
         'cpu','memory','rps','latency_p95','errors',
         'cpu_diff','latency_p95_diff','errors_diff',
@@ -53,14 +55,17 @@ def train_model(df):
     # ===== save =====
     import joblib, json
 
-    joblib.dump(scaler, "model/scaler.pkl")
-    model.save("model/ae_model.h5")
+    joblib.dump(scaler, f"model/scaler_{version}.pkl")
+    model.save(f"model/ae_model_{version}.h5")
 
-    with open("model/config.json", "w") as f:
+    with open(f"model/config_{version}.json", "w") as f:
         json.dump({
             "window_size": WINDOW_SIZE,
             "threshold": float(threshold),
             "min_len": 3
         }, f)
+
+    with open("model/current_model.txt", "w") as f:
+        f.write(version)
 
     print("Model retrained and saved")
