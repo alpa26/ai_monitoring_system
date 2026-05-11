@@ -17,7 +17,8 @@ def query(promql):
 def safe_query(q):
     try:
         return query(q)
-    except:
+    except Exception as e:
+        print("Prometheus error:", e)
         return 0.0
 
 def get_metrics():

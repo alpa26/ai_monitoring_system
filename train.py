@@ -1,10 +1,15 @@
-def train_model(df):
-    import numpy as np
-    from sklearn.preprocessing import StandardScaler
-    from tensorflow.keras.models import Sequential
-    from tensorflow.keras.layers import LSTM, Dense, TimeDistributed, RepeatVector
-    from tensorflow.keras.optimizers import Adam
 
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, TimeDistributed, RepeatVector
+from tensorflow.keras.optimizers import Adam
+from datetime import datetime
+
+def train_model(df):
+    import json
+    with open("model/config.json") as f:
+        config = json.load(f)
     # ===== ТВОЙ preprocess =====
     from preprocess import preprocess, create_windows_3d
 
@@ -20,7 +25,7 @@ def train_model(df):
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(df[features])
 
-    WINDOW_SIZE = 12
+    WINDOW_SIZE = config["window_size"]
     X_3d = create_windows_3d(X_scaled, WINDOW_SIZE)
 
     split = int(len(X_3d) * 0.8)

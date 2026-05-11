@@ -1,1 +1,8 @@
-{"window_size": 12, "threshold": 9.500990976578233, "min_len": 3}
+{
+  "window_size": 12,
+  "threshold": 9.500990976578233,
+  "min_len": 3,
+  "smooth_window": 5,
+  "cooldown": 120,
+  "poll_interval": 10
+}

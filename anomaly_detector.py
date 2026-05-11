@@ -37,12 +37,12 @@ def detect_anomalies(df, model, scaler, config, features):
     y_pred = (mse > config["threshold"]).astype(int)
 
     # сглаживание
-    kernel = np.ones(5)
+    kernel = np.ones(config["smooth_window"])
     y_pred = np.convolve(y_pred, kernel, mode='same')
     y_pred = (y_pred >= 3).astype(int)
 
     # фильтрация коротких аномалий
-    min_len = 3
+    min_len = config["min_len"]
     final_pred = np.zeros_like(y_pred)
     count = 0
     for i in range(len(y_pred)):
@@ -52,4 +52,4 @@ def detect_anomalies(df, model, scaler, config, features):
             if count >= min_len:
                 final_pred[i - count:i] = 1
             count = 0
-    return y_pred, mse, error
+    return final_pred, mse, error

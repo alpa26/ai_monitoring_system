@@ -9,7 +9,7 @@ import random
 import tensorflow as tf
 # python main.py --input data/test.csv
 from tensorflow.keras.models import load_model
-from detector import detect_anomalies
+from anomaly_detector import detect_anomalies
 from stream import run_streaming
 
 SEED = 43
