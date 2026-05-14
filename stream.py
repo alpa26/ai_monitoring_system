@@ -4,7 +4,7 @@ import pandas as pd
 from collections import deque
 from anomaly_detector import detect_anomalies
 from prometheus_integration import get_metrics
-from alerting import send_telegram
+from alerting import send_telegram, send_email, send_vk_alert
 import os
 
 def get_top_features(error_vector, features, top_k=3):
@@ -68,7 +68,9 @@ def run_streaming(model, scaler, config, features):
                     Top contributors:
                     {explanation}
                     """
-                    send_telegram(msg)
+                    #send_telegram(msg)
+                    send_email(msg)
+                    send_vk_alert(msg)
                     last_alert_time = now
         time.sleep(config["poll_interval"])
 

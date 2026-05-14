@@ -57,13 +57,13 @@ def run_batch(model, scaler, config, features):
 
     def get_severity(score):
         if score > p99:
-            return "critical"
+            return "CRITICAL"
         elif score > p95:
-            return "high"
+            return "HIGH"
         elif score > config["threshold"]:
-            return "medium"
+            return "MEDIUM"
         else:
-            return "low"
+            return "LOW"
 
     result = pd.DataFrame({
         "timestamp": df["timestamp"][config["window_size"]:],
