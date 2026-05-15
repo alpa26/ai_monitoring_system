@@ -1,16 +1,16 @@
-import requests
 import smtplib
-import random
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import requests
 
-TG_TOKEN = "YOUR_TOKEN"
-TG_CHAT_ID = "YOUR_CHAT_ID"
+TG_TOKEN = "TOKEN"
+TG_CHAT_ID = "CHAT_ID"
 
 VK_TOKEN = ""
 USER_ID = ""
 
-smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-smtpObj.starttls()
-smtpObj.login('justkiddingboat@gmail.com', 'just123kidding')
+EMAIL = "r2207368@gmail.com"
+APP_PASSWORD = "APP_PASSWORD"
 
 def send_telegram(message):
     url = f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage"
@@ -20,8 +20,28 @@ def send_telegram(message):
     })
 
 def send_email(message):
-    smtpObj.sendmail("justkiddingboat@gmail.com", "michael.byrne@vice.com", message)
-    smtpObj.quit()
+    try:
+        msg = MIMEMultipart()
+
+        msg["From"] = EMAIL
+        msg["To"] = EMAIL
+        msg["Subject"] = "AI Monitoring Alert"
+
+        msg.attach(MIMEText(message, "plain"))
+
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+
+        server.login(EMAIL, APP_PASSWORD)
+
+        server.send_message(msg)
+
+        server.quit()
+
+        print("EMAIL ALERT SENT")
+
+    except Exception as e:
+        print("EMAIL ERROR:", e)
 
 
 def send_vk_alert(message):
