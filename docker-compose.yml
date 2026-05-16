@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  ai-monitoring:
+    build: .
+    container_name: ai-monitoring

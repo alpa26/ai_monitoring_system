@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: ai-monitoring
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: ai-monitoring
+
+  template:
+    metadata:
+      labels:
+        app: ai-monitoring
+
+    spec:
+      containers:
+        - name: ai-monitoring
+
+          image: ai-monitoring-system:latest
+
+          imagePullPolicy: Never
+
+          env:
+            - name: PROM_URL
+              value: "http://prometheus-server.default.svc.cluster.local:9090"
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+
+            limits:
+              memory: "1Gi"
+              cpu: "1"
