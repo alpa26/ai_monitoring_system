@@ -1,0 +1,10 @@
+{
+    "email_enabled": true,
+    "email_to": "admin@example.com",
+
+    "vk_enabled": true,
+    "vk_user_id": "123456",
+
+    "smtp_email": "your@gmail.com",
+    "smtp_password": "APP_PASSWORD"
+}

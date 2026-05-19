@@ -93,12 +93,12 @@ features = [
 ]
 
 with open(f"model/config_{version}.json") as f:
-    config = json.load(f)
+    model_config = json.load(f)
 if args.stream:
     print("Start stream")
-    run_streaming(model, scaler, config, features)
+    run_streaming(model, scaler, model_config, features)
 else:
     print("Start batch")
     if not args.input:
         raise ValueError("Для batch режима нужен --input")
-    run_batch(model, scaler, config, features)
+    run_batch(model, scaler, model_config, features)
