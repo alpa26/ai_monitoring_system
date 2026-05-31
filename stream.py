@@ -27,10 +27,9 @@ def run_streaming(model, scaler, config, features):
                 "latency_p95,restarts,is_alert\n"
             )
     if not os.path.exists("anomalies.csv"):
-        with open("stream_log.csv", "w") as f:
+        with open("anomalies.csv", "w") as f:
             f.write(
-                "timestamp,cpu,memory,network,rps,errors,"
-                "latency_p95,restarts,is_alert\n"
+                "timestamp,score,is_alert,severity"
             )
     while True:
         row = get_metrics()

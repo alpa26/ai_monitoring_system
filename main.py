@@ -30,7 +30,7 @@ def run_batch(model, scaler, config, features):
     df = pd.read_csv(args.input)
 
     # ===== предсказание =====
-    y_pred, mse = detect_anomalies(df, model, scaler, config, features)
+    y_pred, mse, error = detect_anomalies(df, model, scaler, config, features)
 
     events = []
     start = None

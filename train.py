@@ -1,4 +1,4 @@
-from tensorflow.python.keras.callbacks import EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping
 
 
 def train_model(df):

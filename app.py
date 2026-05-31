@@ -1,14 +1,12 @@
-import streamlit as st
 import pandas as pd
 import json
 import os
-
 import streamlit as st
 from matplotlib import pyplot as plt
 
 USERNAME = "admin"
 PASSWORD = "admin"
-
+df = pd.DataFrame()
 if "auth" not in st.session_state:
     st.session_state.auth = False
 
@@ -101,8 +99,8 @@ if st.button("Save config"):
     config["vk_enabled"] = vk_enabled
     config["vk_user_id"] = vk_user_id
 
-    with open("model/config.json", "w") as f:
-        json.dump(model_config, f, indent=4)
+    with open("model/user_config.json", "w") as f:
+        json.dump(config, f, indent=4)
 
     st.success("Config saved")
 
